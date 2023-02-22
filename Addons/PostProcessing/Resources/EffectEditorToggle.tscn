@@ -1,0 +1,12 @@
+[gd_scene load_steps=2 format=3 uid="uid://c8hjqcahy32qp"]
+
+[ext_resource type="Texture2D" uid="uid://f6vprk04ydtg" path="res://addons/PostProcessing/Resources/Manager.svg" id="1_23dr2"]
+
+[node name="EffectEditorToggle" type="Button"]
+offset_right = 8.0
+offset_bottom = 8.0
+tooltip_text = "Custom post processing toggle"
+theme_override_colors/icon_pressed_color = Color(0.443137, 0.737255, 0.984314, 1)
+toggle_mode = true
+icon = ExtResource("1_23dr2")
+flat = true
