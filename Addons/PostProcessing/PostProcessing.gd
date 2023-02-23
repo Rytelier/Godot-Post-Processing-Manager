@@ -150,11 +150,12 @@ func FindManagerInScene():
 		return
 	
 	# Find by possible name variants
-	managerCurrent = get_editor_interface().get_edited_scene_root().find_child("PostProcessingManager", true)
-	if managerCurrent == null:
-		managerCurrent = get_editor_interface().get_edited_scene_root().find_child("PostProcessingManager".to_snake_case(), true)
-	if managerCurrent == null:
-		managerCurrent = get_editor_interface().get_edited_scene_root().find_child("PostProcessingManager".to_camel_case(), true)
+	if get_editor_interface().get_edited_scene_root().get_child_count() != 0:
+		managerCurrent = get_editor_interface().get_edited_scene_root().find_child("PostProcessingManager", true)
+		if managerCurrent == null:
+			managerCurrent = get_editor_interface().get_edited_scene_root().find_child("PostProcessingManager".to_snake_case(), true)
+		if managerCurrent == null:
+			managerCurrent = get_editor_interface().get_edited_scene_root().find_child("PostProcessingManager".to_camel_case(), true)
 
 func FindByClass(node: Node, className : String, result : Array) -> void:
 	if node.is_class(className) :
