@@ -86,6 +86,7 @@ func Clear():
 func UpdateEffects():
 	Clear()
 	
+	if !is_instance_valid(managerCurrent): return
 	if !managerCurrent.showInEditor: return
 	if !is_instance_valid(editor3DViewport): return
 	
@@ -149,19 +150,24 @@ func FindManagerInScene():
 		managerCurrent = null
 		return
 	
-	# Find by possible name variants
-	if get_editor_interface().get_edited_scene_root().get_child_count() != 0:
-		managerCurrent = get_editor_interface().get_edited_scene_root().find_child("PostProcessingManager", true)
-		if managerCurrent == null:
-			managerCurrent = get_editor_interface().get_edited_scene_root().find_child("PostProcessingManager".to_snake_case(), true)
-		if managerCurrent == null:
-			managerCurrent = get_editor_interface().get_edited_scene_root().find_child("PostProcessingManager".to_camel_case(), true)
+	var found = []
+	FindManager(get_editor_interface().get_edited_scene_root(), found)
+	if found.size() > 0:
+		managerCurrent = found[0]
 
 func FindByClass(node: Node, className : String, result : Array) -> void:
 	if node.is_class(className) :
 		result.push_back(node)
 	for child in node.get_children():
 		FindByClass(child, className, result)
+
+#Because find_child crashes for some reason
+func FindManager(node: Node, result : Array):
+	if node.name == "PostProcessingManager" or node.name == "PostProcessingManager".to_snake_case() or node.name == "PostProcessingManager".to_camel_case():
+		result.push_back(node)
+		return
+	for child in node.get_children():
+		FindManager(child, result)
 
 func FindEditorViewports():
 	var allViewports : Array[SubViewportContainer] = []
